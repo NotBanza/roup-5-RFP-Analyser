@@ -1,0 +1,25 @@
+name: Build and Deploy Container to Azure Web App
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Deploy to Azure Web App
+      id: deploy-to-webapp
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'group5-rfp-analyser'
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+        # This 'images' line is required by the action, but the value is just a placeholder.
+        # The action will automatically find and use the Dockerfile in your repository.
+        images: 'placeholder.azurecr.io/image:latest'
